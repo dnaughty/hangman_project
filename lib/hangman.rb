@@ -42,20 +42,24 @@ class Hangman
   end
 
   def try_guess(char)
-    if already_attempted?(char) == true
+    
+    if self.already_attempted?(char)
       print 'that has already been attempted'
       return false
-    else
-      @attempted_chars << char
-      return true
     end
 
-    if get_matching_indices(char) == true
+    @attempted_chars << char
+
+    matching_indices = self.get_matching_indices(char)
+    if matching_indices.empty?
       @remaining_incorrect_guesses -= 1
+    else
+      self.fill_indices(char, matching_indices)
     end
 
-
+    true
   end
+
 
   def ask_user_for_guess
     print 'Enter a char:' 
@@ -68,12 +72,13 @@ class Hangman
   end
 
   def win?
-    if  @guess_word == @secret_word
+    if  @guess_word = @secret_word
+      
       print 'WIN'
       return true 
-      
-   
     end
+
+    return false
 
    
 
